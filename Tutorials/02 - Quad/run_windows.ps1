@@ -18,7 +18,8 @@ if( [System.IO.File]::Exists($pathOfExecutable) )
 }
 
 # compilation and linking
-gcc $args[0] -I..\..\Libraries\GLFW\Windows ..\..\Libraries\GLFW\Windows\libglfw3.a -lopengl32 -lgdi32
+# -I..\..\Libraries\glad\include\KHR
+gcc $args[0] -I..\..\Libraries\glad\include ..\..\Libraries\GLFW\Windows\libglfw3.a ..\..\Libraries\glad\src\glad.c -lopengl32 -lgdi32
 
 # execute
 .\a.exe
