@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "headers/shader.h"
 
-GLuint screenWidth = 800*8/5, screenHeight = 450*8/5;
+GLuint screenWidth = 200, screenHeight = 200;
 const GLFWvidmode* mode;
 GLFWwindow* window;
 
@@ -65,9 +65,15 @@ int main (){
     buildShaders(quad_shader, "shaders/generic.vs", "shaders/quad.fs");
     glUseProgram(quad_shader);
 
+    int window_width, window_height;
+
     while (!glfwWindowShouldClose(window))
     {
 
+        glfwGetWindowSize(window, &window_width, &window_height);
+        glViewport(0, 0, window_width, window_height);
+        printf("%d\n", window_width);
+        
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
