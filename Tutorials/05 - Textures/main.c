@@ -15,14 +15,14 @@ GLuint screenWidth = 600, screenHeight = 600;
 const GLFWvidmode* mode;
 GLFWwindow* window;
 
-void setupVertexArray();
+void setupVAO();
 GLuint getTextureHandle(char* path);
 unsigned int VAO;
 
 
 int main (){
 
-    // Window and setup
+    // Window setup
     GLint glfwStatus = glfwInit();
 
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -62,14 +62,21 @@ int main (){
         }
     #endif
 
-    // END Window and setup
+    // END Window setup
 
-    setupVertexArray();
-    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so for clarity, organization, and possibly avoiding bugs in future
+    // set up Vertex Array Object that contains our vertices and bind it
+    setupVAO();
+    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to unbind in the setupVertexArray function and then bind here, but we'll do so for clarity, organization, and possibly avoiding bugs in future
     
     GLuint quad_shader = glCreateProgram();
     buildShaders(quad_shader, "shaders/generic.vs", "shaders/quad.fs");
     glUseProgram(quad_shader);
+
+    GLuint channel_logo = getTextureHandle("assets/logo.png");
+    glBindTexture(GL_TEXTURE_2D, channel_logo);
+
+    // for alpha (opacity)
+    glEnable (GL_BLEND); glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     int window_width, window_height;
 
@@ -99,20 +106,22 @@ int main (){
 
 }
 
-void setupVertexArray(){
+void setupVAO(){
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
         // positions            // textures
-         0.5f,  0.5f, 0.0f,     0.0f, 0.0f, // top right
-         0.5f, -0.5f, 0.0f,     1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,     1.0f, 1.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,     0.0f, 1.0f // top left 
+         0.5f,  0.5f, 0.0f,     1.0f, 0.0f, // top right
+         0.5f, -0.5f, 0.0f,     1.0f, 1.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,     0.0f, 0.0f // top left 
     };
+
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 3,  // first Triangle
         1, 2, 3   // second Triangle
     };
+
     unsigned int VBO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
