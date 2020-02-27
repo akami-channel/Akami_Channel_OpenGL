@@ -7,7 +7,7 @@
 
 #include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../../stb/stb_image.h"
+#include "../../Libraries/stb/stb_image.h"
 #include "headers/shader.h"
 
 #define FULLSCREEN 0
