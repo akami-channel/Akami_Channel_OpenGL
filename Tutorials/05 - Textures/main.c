@@ -67,7 +67,7 @@ int main (){
 
     // set up Vertex Array Object that contains our vertices and bind it
     setupVAO();
-    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to unbind in the setupVertexArray function and then bind here, but we'll do so for clarity, organization, and possibly avoiding bugs in future
+    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to unbind in the setupVertexArray function and then bind here, but we'll do so for clarity, organization, and avoiding possible bugs in future
     
     GLuint quad_shader = glCreateProgram();
     buildShaders(quad_shader, "shaders/generic.vs", "shaders/quad.fs");
@@ -102,6 +102,12 @@ int main (){
 
     }
 
+    // Optional cleaning up bc OS will likely do it for us, but is a good practice. Note that shaders are deleted in shader.h
+
+    glDeleteProgram(quad_shader);
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    glfwTerminate();
 
     return 0;
 
@@ -112,10 +118,10 @@ void setupVAO(){
     // ------------------------------------------------------------------
     float vertices[] = {
         // positions            // textures
-         0.5f,  0.5f, 0.0f,     1.0f, 0.0f, // top right
-         0.5f, -0.5f, 0.0f,     1.0f, 1.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,     0.0f, 0.0f // top left 
+         0.5f,  0.5f, 0.0f,     1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,     1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,     0.0f, 1.0f // top left 
     };
 
     unsigned int indices[] = {  
@@ -170,15 +176,23 @@ GLuint getTextureHandle(char* path)
     // Set texture filtering
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    // Load, create texture and generate mipmaps
+
+    // Load, create texture and generate mipmaps; 
+    //
+    // Note: image loaders usually think of top left as being (0,0) while in OpenGL I would rather think of bottom left as being (0,0) as OpenGL does that already, so that is why I set the stb library to flip image vertically. There are other workarounds like flipping our texCoords upside down or flipping things in the vs or fs, but that would mean that we are choosing in OpenGL to work with two different coordinate systems, one upside-down from the other. I would rather choose not to do that and simply flip images when loading in. It is a matter of personal choice.
+    // 
+
     int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(1);
     unsigned char *image = stbi_load(path, &width, &height, &nrChannels, 0);
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-    
     glGenerateMipmap(GL_TEXTURE_2D);
+   
+    // free memory 
     stbi_image_free(image);
     glBindTexture(GL_TEXTURE_2D, 0); // unbind so that we can deal with other textures
+
     return textureHandle;
 }
 
