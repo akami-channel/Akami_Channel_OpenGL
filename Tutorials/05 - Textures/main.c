@@ -6,7 +6,6 @@
 #include <stdio.h>
 
 #include "../../Libraries/GLFW/glfw3.h"
-//#include "../../Libraries/SOIL/SOIL.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../../stb/stb_image.h"
 #include "headers/shader.h"
@@ -164,8 +163,7 @@ GLuint getTextureHandle(char* path)
     
     // Set our texture parameters
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   // Set texture wrapping to GL_REPEAT
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);   // Set texture wrapping to GL_CLAMP_TO_BORDER
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     
@@ -174,18 +172,12 @@ GLuint getTextureHandle(char* path)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     // Load, create texture and generate mipmaps
     int width, height, nrChannels;
-    //unsigned char* image = SOIL_load_image(path, &width, &height, 0, SOIL_LOAD_RGBA);
-	//unsigned char* image = SOIL_load_OGL_texture(path, 0, 0,16);
     unsigned char *image = stbi_load(path, &width, &height, &nrChannels, 0);
-
-    //textureHandle = SOIL_create_OGL_texture(image, &width, &height, 4, 0, 16);
-    //GLuint tex_2d = SOIL_load_OGL_texture(path, 0, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-
+    
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
     
-    // for generating mipmaps
     glGenerateMipmap(GL_TEXTURE_2D);
-    //stbi_image_free(image);
+    stbi_image_free(image);
     glBindTexture(GL_TEXTURE_2D, 0); // unbind so that we can deal with other textures
     return textureHandle;
 }
