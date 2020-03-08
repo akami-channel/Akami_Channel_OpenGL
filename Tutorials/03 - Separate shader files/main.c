@@ -58,22 +58,22 @@ int main (){
         }
     #endif
 
-void GLAPIENTRY
-MessageCallback( GLenum source,
-                 GLenum type,
-                 GLuint id,
-                 GLenum severity,
-                 GLsizei length,
-                 const GLchar* message,
-                 const void* userParam )
-{
-  fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-           ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
-            type, severity, message );
-}
+    void GLAPIENTRY
+    MessageCallback( GLenum source,
+                     GLenum type,
+                     GLuint id,
+                     GLenum severity,
+                     GLsizei length,
+                     const GLchar* message,
+                     const void* userParam )
+    {
+      fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+               ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+                type, severity, message );
+    }
 
-glEnable              ( GL_DEBUG_OUTPUT );
-glDebugMessageCallback( MessageCallback, 0 );
+    glEnable              ( GL_DEBUG_OUTPUT );
+    glDebugMessageCallback( MessageCallback, 0 );
 
     setupVertexArray();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
@@ -84,8 +84,6 @@ glDebugMessageCallback( MessageCallback, 0 );
 
     int window_width, window_height;
 
-    glEnable(GL_TEXTURE_2D); glEnable(GL_LIGHTING);
-
     while (!glfwWindowShouldClose(window))
     {
 
@@ -95,22 +93,11 @@ glDebugMessageCallback( MessageCallback, 0 );
         glClear(GL_COLOR_BUFFER_BIT);
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
-        glUniform1f(glGetUniformLocation(quad_shader, "test"), 0.3f);
+        // when I switch around following number, sometimes it does nothing and sometimes the whole quad disappears. 
+        float transX = 1.630001f;
+        glUniform1f(glGetUniformLocation(quad_shader, "test"), &transX);
 
-        
-        // GLenum err;
-        // while((err = glGetError()) != GL_NO_ERROR)
-        // {
-        //   // Process/log the error.
-        //     printf("%d\n", err);
-        // }
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // while((err = glGetError()) != GL_NO_ERROR)
-        // {
-        //   // Process/log the error.
-        //     printf("%d\n", err);
-        // }
-
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glBindVertexArray(0); // no need to unbind it every time 
 
