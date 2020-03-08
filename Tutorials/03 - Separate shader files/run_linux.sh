@@ -17,6 +17,6 @@ fi
 
 # If it doesn't work for you, try adding any of the libraries below.
 #gcc $1 -lGL -lm -lX11 -lpthread -lXrandr -lXi -ldl -lglfw
-gcc $1 -lGL ../../Libraries/GLFW/Linux/libglfw.so.3.3 
+gcc $1 -lGL -lm ../../Libraries/GLFW/Linux/libglfw.so.3.3 
 ./a.out
 

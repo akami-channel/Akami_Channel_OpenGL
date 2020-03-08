@@ -6,6 +6,7 @@
 #include "../../Libraries/GLFW/glfw3.h"
 #include <stdio.h>
 #include "headers/shader.h"
+#include <math.h>
 
 GLuint screenWidth = 200, screenHeight = 200;
 const GLFWvidmode* mode;
@@ -75,9 +76,16 @@ int main (){
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        double lastTime = glfwGetTime();
+
         //glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        // Dear REDDITORS, the following 5 lines are where I'm having trouble
+
         // On Linux: when I switch around following number, sometimes it does nothing and sometimes the whole quad disappears. It never translates as expected
         float transX = 1.13f;
+        // As demonstration, try commenting in following line. For me, the quad flashes on and off when I would expect it to move right and left
+        // transX = sin(lastTime);
         glUniform1f(glGetUniformLocation(quad_shader, "test"), transX);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
