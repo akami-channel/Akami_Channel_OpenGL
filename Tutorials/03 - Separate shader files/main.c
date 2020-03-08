@@ -58,23 +58,6 @@ int main (){
         }
     #endif
 
-    void GLAPIENTRY
-    MessageCallback( GLenum source,
-                     GLenum type,
-                     GLuint id,
-                     GLenum severity,
-                     GLsizei length,
-                     const GLchar* message,
-                     const void* userParam )
-    {
-      fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-               ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
-                type, severity, message );
-    }
-
-    glEnable              ( GL_DEBUG_OUTPUT );
-    glDebugMessageCallback( MessageCallback, 0 );
-
     setupVertexArray();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     
@@ -95,7 +78,7 @@ int main (){
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         // when I switch around following number, sometimes it does nothing and sometimes the whole quad disappears. 
         float transX = 1.630001f;
-        glUniform1f(glGetUniformLocation(quad_shader, "test"), &transX);
+        glUniform1f(glGetUniformLocation(quad_shader, "test"), 1.13);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
