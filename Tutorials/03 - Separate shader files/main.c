@@ -76,9 +76,9 @@ int main (){
         glClear(GL_COLOR_BUFFER_BIT);
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
-        // when I switch around following number, sometimes it does nothing and sometimes the whole quad disappears. 
-        float transX = 1.630001f;
-        glUniform1f(glGetUniformLocation(quad_shader, "test"), 1.13);
+        // On Linux: when I switch around following number, sometimes it does nothing and sometimes the whole quad disappears. It never translates as expected
+        float transX = 1.13f;
+        glUniform1f(glGetUniformLocation(quad_shader, "test"), transX);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
