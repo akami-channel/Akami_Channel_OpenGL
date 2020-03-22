@@ -1,7 +1,9 @@
 
-#ifdef WIN32 || __cygwin
-    #include <glad/glad.h>
-#endif
+//#ifdef WIN32 || __cygwin
+    //#include <glad/glad.h>
+//#endif
+
+#include "../../Libraries/glad/glad.h"
 
 #include <stdio.h>
 
@@ -55,13 +57,19 @@ int main (){
     glfwMakeContextCurrent(window);
 
     // If Windows: load all OpenGL function pointers with GLAD
-    #ifdef WIN32 || __cygwin
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
+//    #ifdef WIN32 || __cygwin
+//       if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+//      {
+//            printf("Failed to initialize GLAD");
+//            return -1;
+//        }
+//    #endif
+
+       if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+      {
             printf("Failed to initialize GLAD");
             return -1;
-        }
-    #endif
+      }
 
     // END Window setup
 
@@ -93,6 +101,9 @@ int main (){
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glUniform1f(glGetUniformLocation(quad_shader, "transX"), 0.8);
+        //glUniform1f(glGetUniformLocation(walking_shader, "transY"), eyeball_01.y + background_position.y);
+
         // glBindVertexArray(0); // no need to unbind it every time 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

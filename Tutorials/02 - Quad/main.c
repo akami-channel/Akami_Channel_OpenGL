@@ -1,7 +1,5 @@
 
-#ifdef WIN32 || __cygwin
-    #include <glad/glad.h>
-#endif
+#include "../../../game/Libraries/glad/glad.h"
 
 #include "../../Libraries/GLFW/glfw3.h"
 #include <stdio.h>
@@ -63,13 +61,11 @@ int main (){
     glfwMakeContextCurrent(window);
 
     // If Windows: load all OpenGL function pointers with GLAD
-    #ifdef WIN32 || __cygwin
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             printf("Failed to initialize GLAD");
             return -1;
         }
-    #endif
 
     int shaderProgram = glCreateProgram();
     buildShaders(shaderProgram);
