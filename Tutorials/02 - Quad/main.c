@@ -1,5 +1,5 @@
 
-#include "../../../game/Libraries/glad/glad.h"
+#include "../../Libraries/glad/glad.h"
 
 #include "../../Libraries/GLFW/glfw3.h"
 #include <stdio.h>
