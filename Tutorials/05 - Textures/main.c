@@ -1,7 +1,11 @@
 
+
+#ifndef __APPLE__
+    #include "../../Libraries/glad/glad.h"
+#endif
+
 #include <stdio.h>
 
-#include "../../Libraries/glad/glad.h"
 #include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../Libraries/stb/stb_image.h"
@@ -51,12 +55,14 @@ int main (){
 
     glfwMakeContextCurrent(window);
 
-    // If Windows or Linux: load all OpenGL function pointers with GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        printf("Failed to initialize GLAD");
-        return -1;
-    }
+    #ifndef __APPLE__
+        // If Windows or Linux: load all OpenGL function pointers with GLAD
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            printf("Failed to initialize GLAD");
+            return -1;
+        }
+    #endif
 
     // END Window setup
 

@@ -1,9 +1,7 @@
 
-//#ifdef WIN32 || __cygwin
-    //#include <glad/glad.h>
-//#endif
-
-#include "../../Libraries/glad/glad.h"
+#ifndef __APPLE__
+    #include "../../Libraries/glad/glad.h"
+#endif
 
 #include <stdio.h>
 
@@ -56,12 +54,14 @@ int main (){
 
     glfwMakeContextCurrent(window);
 
-    // If Windows or Linux: load all OpenGL function pointers with GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        printf("Failed to initialize GLAD");
-        return -1;
-    }
+    #ifndef __APPLE__
+        // If Windows or Linux: load all OpenGL function pointers with GLAD
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            printf("Failed to initialize GLAD");
+            return -1;
+        }
+    #endif
 
     // END Window setup
 

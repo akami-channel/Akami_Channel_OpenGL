@@ -1,5 +1,8 @@
 
-#include "../../Libraries/glad/glad.h"
+#ifndef __APPLE__
+    #include "../../Libraries/glad/glad.h"
+#endif
+
 #include "../../Libraries/GLFW/glfw3.h"
 #include <stdio.h>
 #include "headers/shader.h"
@@ -46,12 +49,15 @@ int main (){
 
     glfwMakeContextCurrent(window);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        printf("Failed to initialize GLAD");
-        return -1;
-    }
-
+    #ifndef __APPLE__
+        // If Windows or Linux: load all OpenGL function pointers with GLAD
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            printf("Failed to initialize GLAD");
+            return -1;
+        }
+    #endif
+        
     setupVertexArray();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     
