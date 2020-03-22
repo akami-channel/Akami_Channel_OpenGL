@@ -56,20 +56,12 @@ int main (){
 
     glfwMakeContextCurrent(window);
 
-    // If Windows: load all OpenGL function pointers with GLAD
-//    #ifdef WIN32 || __cygwin
-//       if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-//      {
-//            printf("Failed to initialize GLAD");
-//            return -1;
-//        }
-//    #endif
-
-       if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-      {
-            printf("Failed to initialize GLAD");
-            return -1;
-      }
+    // If Windows or Linux: load all OpenGL function pointers with GLAD
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        printf("Failed to initialize GLAD");
+        return -1;
+    }
 
     // END Window setup
 

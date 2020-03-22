@@ -1,10 +1,7 @@
 
-#ifdef WIN32 || __cygwin
-    #include <glad/glad.h>
-#endif
-
 #include <stdio.h>
 
+#include "../../Libraries/glad/glad.h"
 #include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../Libraries/stb/stb_image.h"
@@ -54,14 +51,12 @@ int main (){
 
     glfwMakeContextCurrent(window);
 
-    // If Windows: load all OpenGL function pointers with GLAD
-    #ifdef WIN32 || __cygwin
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            printf("Failed to initialize GLAD");
-            return -1;
-        }
-    #endif
+    // If Windows or Linux: load all OpenGL function pointers with GLAD
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        printf("Failed to initialize GLAD");
+        return -1;
+    }
 
     // END Window setup
 
