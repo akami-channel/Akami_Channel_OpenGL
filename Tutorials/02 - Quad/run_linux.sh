@@ -18,5 +18,4 @@ fi
 # If it doesn't work for you, try adding any of the libraries below.
 #gcc $1 -lGL -lm -lX11 -lpthread -lXrandr -lXi -ldl -lglfw
 gcc $1 -lGL -lm -ldl ../../Libraries/glad/glad.c ../../Libraries/GLFW/Linux/libglfw.so.3.3 
-./a.out
-
+LD_LIBRARY_PATH="$(pwd)/../../Libraries/GLFW/Linux:${LD_LIBRARY_PATH}" ./a.out
