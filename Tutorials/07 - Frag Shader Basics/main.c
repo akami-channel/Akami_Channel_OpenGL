@@ -99,7 +99,7 @@ int main (){
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glUniform1f(glGetUniformLocation(quad_shader, "transX"), cos(currentTime));
+        //glUniform1f(glGetUniformLocation(quad_shader, "transX"), cos(currentTime));
 
         // glBindVertexArray(0); // no need to unbind it every time 
 
