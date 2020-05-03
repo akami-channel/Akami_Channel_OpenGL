@@ -4,6 +4,7 @@
 #endif
 
 #include <stdio.h>
+#include <math.h>
 
 #include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
@@ -20,6 +21,7 @@ void setupVAO();
 GLuint getTextureHandle(char* path);
 unsigned int VAO;
 
+float currentTime, deltaTime, lastFrame;
 
 int main (){
 
@@ -84,17 +86,20 @@ int main (){
     while (!glfwWindowShouldClose(window))
     {
 
+        currentTime = glfwGetTime();
+        deltaTime = currentTime - lastFrame;
+        lastFrame = currentTime;
+
         glfwGetWindowSize(window, &window_width, &window_height);
         glViewport(0, 0, window_width, window_height);
         // printf("%d\n", window_width);
         
-        glClearColor(0.3f, 0.3f, 0.9f, 1.0f);
+        glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glUniform1f(glGetUniformLocation(quad_shader, "transX"), 0.8);
-        //glUniform1f(glGetUniformLocation(walking_shader, "transY"), eyeball_01.y + background_position.y);
+        glUniform1f(glGetUniformLocation(quad_shader, "transX"), cos(currentTime));
 
         // glBindVertexArray(0); // no need to unbind it every time 
 
