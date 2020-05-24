@@ -1,14 +1,14 @@
 
 #ifndef __APPLE__
-    #include "../../Libraries/glad/glad.h"
+    #include "../../../Libraries/glad/glad.h"
 #endif
 
 #include <stdio.h>
 #include <math.h>
 
-#include "../../Libraries/GLFW/glfw3.h"
+#include "../../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../Libraries/stb/stb_image.h"
+#include "../../../Libraries/stb/stb_image.h"
 #include "headers/shader.h"
 
 #define FALSE 0
@@ -166,7 +166,7 @@ int main (){
 
         if(player_can_jump_bool){
             if(keys[GLFW_KEY_SPACE] || keys[GLFW_KEY_UP]){
-                player_upward_velocity += 0.01;
+                player_upward_velocity += 0.03;
                 player_can_jump_bool = FALSE;
             }
         }

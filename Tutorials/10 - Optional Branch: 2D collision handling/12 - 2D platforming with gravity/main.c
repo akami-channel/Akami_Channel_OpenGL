@@ -1,14 +1,14 @@
 
 #ifndef __APPLE__
-    #include "../../Libraries/glad/glad.h"
+    #include "../../../Libraries/glad/glad.h"
 #endif
 
 #include <stdio.h>
 #include <math.h>
 
-#include "../../Libraries/GLFW/glfw3.h"
+#include "../../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../Libraries/stb/stb_image.h"
+#include "../../../Libraries/stb/stb_image.h"
 #include "headers/shader.h"
 
 #define FALSE 0
