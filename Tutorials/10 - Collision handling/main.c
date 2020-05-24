@@ -102,7 +102,7 @@ int main (){
     } Rectangle;
 
     Rectangle r1, r2;
-    r1.x = -1.0; r1.y = -1.0; r1.width = 0.1; r1.height = 0.1; r1.color.r = 0.3; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
+    r1.x = -1.0; r1.y = -1.0; r1.width = 0.1; r1.height = 0.1; r1.color.r = 0.7; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
     r2.x = 0.0; r2.y = 0.0; r2.width = 0.1; r2.height = 0.1; r2.color.r = 0.3; r2.color.g = 0.2; r2.color.b = 1.0; r2.color.a = 0.9;
 
     while (!glfwWindowShouldClose(window))
@@ -116,21 +116,44 @@ int main (){
         glViewport(0, 0, window_width, window_height);
         // printf("%d\n", window_width);
         
-        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
-        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
-        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
-        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
+        float previous_x = r1.x;
+        float previous_y = r1.y;
 
- 
+        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
+
         if (r1.x < r2.x + r2.width &&
             r1.x + r1.width > r2.x &&
             r1.y < r2.y + r2.height &&
             r1.y + r1.height > r2.y) {
-                r1.color.r = 1.0; r1.color.g = 0.0; r1.color.b = 0.0;
-                r2.color.r = 1.0; r2.color.g = 0.0; r2.color.b = 0.0;
-        } else {
-            r1.color.r = 0.0; r1.color.g = 0.0; r1.color.b = 1.0;
-            r2.color.r = 0.0; r2.color.g = 0.0; r2.color.b = 1.0;
+                r1.x = previous_x;
+        }
+
+        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
+
+        if (r1.x < r2.x + r2.width &&
+            r1.x + r1.width > r2.x &&
+            r1.y < r2.y + r2.height &&
+            r1.y + r1.height > r2.y) {
+                r1.x = r2.x + r2.width;
+        } 
+
+
+        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
+
+        if (r1.x < r2.x + r2.width &&
+            r1.x + r1.width > r2.x &&
+            r1.y < r2.y + r2.height &&
+            r1.y + r1.height > r2.y) {
+                r1.y = previous_y;
+        }
+
+        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
+
+        if (r1.x < r2.x + r2.width &&
+            r1.x + r1.width > r2.x &&
+            r1.y < r2.y + r2.height &&
+            r1.y + r1.height > r2.y) {
+                r1.y = r2.y + r2.height;
         }
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
