@@ -89,7 +89,21 @@ int main (){
     glEnable (GL_BLEND); glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     int window_width, window_height;
-    float pos_x, pos_y = 0.0;
+
+    typedef struct Color {
+        float r, g, b;
+    } Color;
+
+    typedef struct Rectangle {
+        float x , y;
+        float width;
+        float height;
+        Color color;
+    } Rectangle;
+
+    Rectangle r1;
+    r1.x, r1.y = 0.0; r1.width, r1.height = 1.0; r1.color.r = 0.3; r1.color.g = 0.2; r1.color.b = 1.0;
+    r2.x, r2.y = 0.0; r2.width, r2.height = 1.0; r2.color.r = 0.3; r2.color.g = 0.2; r2.color.b = 1.0;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -102,17 +116,30 @@ int main (){
         glViewport(0, 0, window_width, window_height);
         // printf("%d\n", window_width);
         
-        if(keys[GLFW_KEY_RIGHT]) pos_x = pos_x + 0.01;
-        if(keys[GLFW_KEY_LEFT]) pos_x = pos_x - 0.01;
-        if(keys[GLFW_KEY_UP]) pos_y = pos_y + 0.01;
-        if(keys[GLFW_KEY_DOWN]) pos_y = pos_y - 0.01;
+
+
+ 
+        // if (r1.x < r2.x + r2.width &&
+        //     r1.x + r1.width > r2.x &&
+        //     r1.y < r2.y + r2.height &&
+        //     r1.y + r1.height > r2.y) {
+        //         ;
+        // }
+
+        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
+        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
+        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
+        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
+        
+        glUniform2f(glGetUniformLocation(quad_shader, "trans"), r1.x, r1.y);
+        glUniform3f(glGetUniformLocation(quad_shader, "color"), r1.color.r, r1.color.g, r1.color.b);
+
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glUniform2f(glGetUniformLocation(quad_shader, "trans"), pos_x, pos_y);
 
         // glBindVertexArray(0); // no need to unbind it every time 
 
@@ -153,10 +180,10 @@ void setupVAO(){
     // ------------------------------------------------------------------
     float vertices[] = {
         // positions            // textures
-         0.5f,  0.5f, 0.0f,     1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,     1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,     0.0f, 1.0f // top left 
+         1.0f,  1.0f, 0.0f,     1.0f, 1.0f, // top right
+         1.0f, 0.0f, 0.0f,     1.0f, 0.0f, // bottom right
+        0.0f, 0.0f, 0.0f,     0.0f, 0.0f, // bottom left
+        0.0f,  1.0f, 0.0f,     0.0f, 1.0f // top left 
     };
 
     unsigned int indices[] = {  
