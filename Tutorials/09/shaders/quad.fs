@@ -5,13 +5,13 @@ in vec2 TexCoord;
 out vec4 FragColor;
 
 uniform sampler2D generalTexture;
-uniform vec3 color;
+uniform vec4 color;
 
 void main()
 {
     // x ^ 2 + y ^ 2 = r ^ 2
        
-    FragColor = vec4(color.r, color.g, color.b, 1.0f);
+    FragColor = vec4(color.r, color.g, color.b, color.a);
     // FragColor = texture(generalTexture, TexCoord);
     // FragColor = vec4(TexCoord.x, 0.0f, TexCoord.y, 1.0f);
 
