@@ -102,8 +102,8 @@ int main (){
     } Rectangle;
 
     Rectangle r1, r2;
-    r1.x = 0.0; r1.y = 0.0; r1.width = 1.0; r1.height = 1.0; r1.color.r = 0.3; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
-    r2.x = 0.0; r2.y = 0.0; r2.width = 1.0; r2.height = 1.0; r2.color.r = 0.3; r2.color.g = 0.2; r2.color.b = 1.0; r2.color.a = 0.9;
+    r1.x = -1.0; r1.y = -1.0; r1.width = 0.1; r1.height = 0.1; r1.color.r = 0.3; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
+    r2.x = 0.0; r2.y = 0.0; r2.width = 0.1; r2.height = 0.1; r2.color.r = 0.3; r2.color.g = 0.2; r2.color.b = 1.0; r2.color.a = 0.9;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -135,14 +135,14 @@ int main (){
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
         
         glUniform2f(glGetUniformLocation(quad_shader, "trans"), r1.x, r1.y);
+        glUniform2f(glGetUniformLocation(quad_shader, "scale"), r1.width, r1.height);
         glUniform4f(glGetUniformLocation(quad_shader, "color"), r1.color.r, r1.color.g, r1.color.b, r1.color.a);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glUniform2f(glGetUniformLocation(quad_shader, "trans"), r2.x, r2.y);
+        glUniform2f(glGetUniformLocation(quad_shader, "scale"), r2.width, r2.height);
         glUniform4f(glGetUniformLocation(quad_shader, "color"), r2.color.r, r2.color.g, r2.color.b, r2.color.a);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
