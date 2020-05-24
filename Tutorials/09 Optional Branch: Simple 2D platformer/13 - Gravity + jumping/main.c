@@ -216,9 +216,12 @@ int main (){
             }            
         }
 
-        // restart player position
+        // restart player
         if(keys[GLFW_KEY_R]){
+            // reset starting location
             r1.x = player_start_x; r1.y = player_start_y;
+            // reset vertical velocities
+            player_downward_velocity = 0.0; player_upward_velocity = 0.0; player_y_velocity = 0.0;
         }
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
