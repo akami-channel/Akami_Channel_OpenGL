@@ -130,16 +130,11 @@ int main (){
 
         glfwGetWindowSize(window, &window_width, &window_height);
         glViewport(0, 0, window_width, window_height);
-        // printf("%d\n", window_width);
         
         float previous_x = r1.x;
         float previous_y = r1.y;
 
         if(keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) r1.x += 0.01;
-
-        // if(check_collision(r1, r2)){
-        //     r1.x = previous_x;
-        // }
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -155,10 +150,6 @@ int main (){
             }
         }
 
-        // if(check_collision(r1, r2)){
-        //     r1.x = r2.x + r2.width;
-        // }
-
         if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y += 0.01;
 
         for(int i = 0; i < numBlocks; i++){
@@ -166,10 +157,6 @@ int main (){
                 r1.y = blocks[i]->y - r1.height;
             }
         }
-
-        // if(check_collision(r1, r2)){
-        //     r1.y = previous_y;
-        // }
 
         if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y -= 0.01;
 
@@ -199,10 +186,6 @@ int main (){
         if(keys[GLFW_KEY_SPACE] && !check_gravity_bool){
             player_upward_velocity += 0.6;
         }
-
-        // if(check_collision(r1, r2)){
-        //     r1.y = r2.y + r2.height;
-        // }
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
