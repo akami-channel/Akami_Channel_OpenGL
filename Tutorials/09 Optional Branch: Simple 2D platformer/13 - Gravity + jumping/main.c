@@ -168,7 +168,7 @@ int main (){
         // Up and down collisions, jumping, gravity:
 
         if(player_can_jump_bool){
-            if(keys[GLFW_KEY_SPACE] || keys[GLFW_KEY_UP]){
+            if(keys[GLFW_KEY_SPACE] || keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]){
                 player_upward_velocity += 0.03;
                 player_can_jump_bool = FALSE;
             }
