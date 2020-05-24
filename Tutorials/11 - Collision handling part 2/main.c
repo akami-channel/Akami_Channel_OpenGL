@@ -39,7 +39,7 @@ typedef struct Rectangle {
     Color color;
 } Rectangle;
 
-int check_collision(Rectangle r1, Rectangle r2);
+int check_collision(Rectangle* r1, Rectangle* r2);
 GLuint quad_shader;
 void draw_rect(Rectangle r1);
 
@@ -111,6 +111,14 @@ int main (){
     r3.x = -0.4; r3.y = -0.4; r3.width = 0.1; r3.height = 0.1; r3.color.r = 0.3; r3.color.g = 0.2; r3.color.b = 0.8; r3.color.a = 0.9;
     r4.x = -0.1; r4.y = 0.6; r4.width = 0.1; r4.height = 0.1; r4.color.r = 0.3; r4.color.g = 0.2; r4.color.b = 0.2; r4.color.a = 0.9;
 
+    int numBlocks = 3;
+    Rectangle* blocks[3] = {&r2, &r3, &r4};
+    // printf("%s\n", "hi");
+    // printf("%lu", sizeof(blocks));
+    // printf("%s\n", "hi");
+    // return 0;
+    // return 0;
+
     while (!glfwWindowShouldClose(window))
     {
 
@@ -127,27 +135,51 @@ int main (){
 
         if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
 
-        if(check_collision(r1, r2)){
-            r1.x = previous_x;
+        // if(check_collision(r1, r2)){
+        //     r1.x = previous_x;
+        // }
+
+        for(int i = 0; i < numBlocks; i++){
+            if(check_collision(&r1, blocks[i])){
+                r1.x = blocks[i]->x - r1.width;
+            }
         }
 
         if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
 
-        if(check_collision(r1, r2)){
-            r1.x = r2.x + r2.width;
+        for(int i = 0; i < numBlocks; i++){
+            if(check_collision(&r1, blocks[i])){
+                r1.x = blocks[i]->x + blocks[i]->width;
+            }
         }
+
+        // if(check_collision(r1, r2)){
+        //     r1.x = r2.x + r2.width;
+        // }
 
         if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
 
-        if(check_collision(r1, r2)){
-            r1.y = previous_y;
+        for(int i = 0; i < numBlocks; i++){
+            if(check_collision(&r1, blocks[i])){
+                r1.y = blocks[i]->y - r1.height;
+            }
         }
+
+        // if(check_collision(r1, r2)){
+        //     r1.y = previous_y;
+        // }
 
         if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
 
-        if(check_collision(r1, r2)){
-            r1.y = r2.y + r2.height;
+        for(int i = 0; i < numBlocks; i++){
+            if(check_collision(&r1, blocks[i])){
+                r1.y = blocks[i]->y + blocks[i]->height;
+            }
         }
+
+        // if(check_collision(r1, r2)){
+        //     r1.y = r2.y + r2.height;
+        // }
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -184,11 +216,11 @@ void draw_rect(Rectangle r1){
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 }
 
-int check_collision(Rectangle r1, Rectangle r2){
-    if (r1.x < r2.x + r2.width &&
-        r1.x + r1.width > r2.x &&
-        r1.y < r2.y + r2.height &&
-        r1.y + r1.height > r2.y) {
+int check_collision(Rectangle* r1, Rectangle* r2){
+    if (r1->x < r2->x + r2->width &&
+        r1->x + r1->width > r2->x &&
+        r1->y < r2->y + r2->height &&
+        r1->y + r1->height > r2->y) {
             return 1; // collision
     } else {
         return 0;
