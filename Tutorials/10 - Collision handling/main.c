@@ -124,7 +124,7 @@ int main (){
         if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
 
         if(check_collision(r1, r2)){
-            r1.x = previous_x;
+            r1.x = r2.x - r1.width;
         }
 
         if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
@@ -136,7 +136,7 @@ int main (){
         if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
 
         if(check_collision(r1, r2)){
-            r1.y = previous_y;
+            r1.y = r2.y - r1.height;
         }
 
         if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
