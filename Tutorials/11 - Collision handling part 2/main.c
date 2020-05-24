@@ -40,6 +40,8 @@ typedef struct Rectangle {
 } Rectangle;
 
 int check_collision(Rectangle r1, Rectangle r2);
+GLuint quad_shader;
+void draw_rect(Rectangle r1);
 
 int main (){
 
@@ -91,7 +93,7 @@ int main (){
     setupVAO();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to unbind in the setupVertexArray function and then bind here, but we'll do so for clarity, organization, and avoiding possible bugs in future
     
-    GLuint quad_shader = glCreateProgram();
+    quad_shader = glCreateProgram();
     buildShaders(quad_shader, "shaders/generic.vs", "shaders/quad.fs");
     glUseProgram(quad_shader);
 
@@ -103,9 +105,11 @@ int main (){
 
     int window_width, window_height;
 
-    Rectangle r1, r2;
+    Rectangle r1, r2, r3, r4;
     r1.x = -1.0; r1.y = -1.0; r1.width = 0.1; r1.height = 0.1; r1.color.r = 0.7; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
     r2.x = 0.0; r2.y = 0.0; r2.width = 0.1; r2.height = 0.1; r2.color.r = 0.3; r2.color.g = 0.2; r2.color.b = 1.0; r2.color.a = 0.9;
+    r3.x = -0.4; r3.y = -0.4; r3.width = 0.1; r3.height = 0.1; r3.color.r = 0.3; r3.color.g = 0.2; r3.color.b = 0.8; r3.color.a = 0.9;
+    r4.x = -0.1; r4.y = 0.6; r4.width = 0.1; r4.height = 0.1; r4.color.r = 0.3; r4.color.g = 0.2; r4.color.b = 0.2; r4.color.a = 0.9;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -147,16 +151,11 @@ int main (){
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        glUniform2f(glGetUniformLocation(quad_shader, "trans"), r1.x, r1.y);
-        glUniform2f(glGetUniformLocation(quad_shader, "scale"), r1.width, r1.height);
-        glUniform4f(glGetUniformLocation(quad_shader, "color"), r1.color.r, r1.color.g, r1.color.b, r1.color.a);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        glUniform2f(glGetUniformLocation(quad_shader, "trans"), r2.x, r2.y);
-        glUniform2f(glGetUniformLocation(quad_shader, "scale"), r2.width, r2.height);
-        glUniform4f(glGetUniformLocation(quad_shader, "color"), r2.color.r, r2.color.g, r2.color.b, r2.color.a);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        draw_rect(r1);
+        draw_rect(r2);
+        draw_rect(r3);
+        draw_rect(r4);
 
         // glBindVertexArray(0); // no need to unbind it every time 
 
@@ -176,6 +175,13 @@ int main (){
 
     return 0;
 
+}
+
+void draw_rect(Rectangle r1){
+    glUniform2f(glGetUniformLocation(quad_shader, "trans"), r1.x, r1.y);
+    glUniform2f(glGetUniformLocation(quad_shader, "scale"), r1.width, r1.height);
+    glUniform4f(glGetUniformLocation(quad_shader, "color"), r1.color.r, r1.color.g, r1.color.b, r1.color.a);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 }
 
 int check_collision(Rectangle r1, Rectangle r2){
