@@ -121,7 +121,8 @@ int main (){
     // return 0;
     // return 0;
 
-    float player_downward_velocity = 0.0; float player_upward_velocity = 0.0;
+    // player vertical velocity floats
+    float player_downward_velocity = 0.0; float player_upward_velocity = 0.0; float player_y_velocity = 0.0;
     int player_can_jump_bool = FALSE;
 
     while (!glfwWindowShouldClose(window))
@@ -174,17 +175,12 @@ int main (){
         }
 
         // GRAVITY
-        player_downward_velocity += deltaTime * 0.02;
+        player_downward_velocity += deltaTime * 0.03;
 
         // SET PLAYER_Y_VELOCITY
-        float player_y_velocity = player_upward_velocity - player_downward_velocity;
+        player_y_velocity = player_upward_velocity - player_downward_velocity;
         r1.y += player_y_velocity;
-        printf("player_y_velocity: %f\n", player_y_velocity);
-        printf("player_can_jump_bool: %d\n", player_can_jump_bool);
         if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y -= 0.01;
-
-        printf("player_upward_velocity: %f\n", player_upward_velocity);
-        printf("player_downward_velocity: %f\n", player_downward_velocity);
 
         // CHECK FOR VERTICAL COLLISIONS
         if(player_y_velocity > 0.0){
