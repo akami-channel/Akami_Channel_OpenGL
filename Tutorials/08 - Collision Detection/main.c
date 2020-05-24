@@ -11,7 +11,9 @@
 #include "../../Libraries/stb/stb_image.h"
 #include "headers/shader.h"
 
-#define FULLSCREEN 0
+#define FALSE 0
+#define TRUE 1
+#define FULLSCREEN FALSE
 
 GLuint screenWidth = 600, screenHeight = 600;
 const GLFWvidmode* mode;
@@ -20,6 +22,9 @@ GLFWwindow* window;
 void setupVAO();
 GLuint getTextureHandle(char* path);
 unsigned int VAO;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+int keys[1024];
 
 float currentTime, deltaTime, lastFrame;
 
@@ -67,6 +72,8 @@ int main (){
 
     // END Window setup
 
+    glfwSetKeyCallback(window, key_callback);
+
     // set up Vertex Array Object that contains our vertices and bind it
     setupVAO();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to unbind in the setupVertexArray function and then bind here, but we'll do so for clarity, organization, and avoiding possible bugs in future
@@ -82,6 +89,7 @@ int main (){
     glEnable (GL_BLEND); glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     int window_width, window_height;
+    float pos_x, pos_y = 0.0;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -94,12 +102,18 @@ int main (){
         glViewport(0, 0, window_width, window_height);
         // printf("%d\n", window_width);
         
+        if(keys[GLFW_KEY_RIGHT]) pos_x = pos_x + 0.01;
+        if(keys[GLFW_KEY_LEFT]) pos_x = pos_x - 0.01;
+        if(keys[GLFW_KEY_UP]) pos_y = pos_y + 0.01;
+        if(keys[GLFW_KEY_DOWN]) pos_y = pos_y - 0.01;
+        printf("%f ", pos_x);
+
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glUniform2f(glGetUniformLocation(quad_shader, "trans"), 0.0, 0.0);
+        glUniform2f(glGetUniformLocation(quad_shader, "trans"), pos_x, pos_y);
 
         // glBindVertexArray(0); // no need to unbind it every time 
 
@@ -108,10 +122,10 @@ int main (){
         glfwSwapBuffers(window);
         glfwPollEvents();
 
+
     }
 
     // Optional cleaning up bc OS will likely do it for us, but is a good practice. Note that shaders are deleted in shader.h
-
     glDeleteProgram(quad_shader);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
@@ -120,6 +134,20 @@ int main (){
     return 0;
 
 }
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    if (key >= 0 && key < 1024)
+    {
+        if(action == GLFW_PRESS)
+            keys[key] = TRUE;
+        else if(action == GLFW_RELEASE)
+            keys[key] = FALSE;
+    }
+}
+
 
 void setupVAO(){
     // set up vertex data (and buffer(s)) and configure vertex attributes
