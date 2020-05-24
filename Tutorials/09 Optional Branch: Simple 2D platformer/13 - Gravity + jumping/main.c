@@ -105,8 +105,10 @@ int main (){
 
     int window_width, window_height;
 
+    float player_start_x = -0.05; float player_start_y = 0.88;
+
     Rectangle r1, r2, r3, r4;
-    r1.x = -0.05; r1.y = 0.88; r1.width = 0.1; r1.height = 0.1; r1.color.r = 0.7; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
+    r1.x = player_start_x; r1.y = player_start_y; r1.width = 0.1; r1.height = 0.1; r1.color.r = 0.7; r1.color.g = 0.2; r1.color.b = 1.0; r1.color.a = 0.9;
     r2.x = 0.0; r2.y = 0.0; r2.width = 0.1; r2.height = 0.1; r2.color.r = 0.3; r2.color.g = 0.2; r2.color.b = 1.0; r2.color.a = 0.9;
     r3.x = -0.4; r3.y = -0.4; r3.width = 0.1; r3.height = 0.1; r3.color.r = 0.3; r3.color.g = 0.2; r3.color.b = 0.8; r3.color.a = 0.9;
     r4.x = -0.1; r4.y = 0.6; r4.width = 0.1; r4.height = 0.1; r4.color.r = 0.3; r4.color.g = 0.2; r4.color.b = 0.2; r4.color.a = 0.9;
@@ -177,7 +179,12 @@ int main (){
         // SET PLAYER_Y_VELOCITY
         float player_y_velocity = player_upward_velocity - player_downward_velocity;
         r1.y += player_y_velocity;
+        printf("player_y_velocity: %f\n", player_y_velocity);
+        printf("player_can_jump_bool: %d\n", player_can_jump_bool);
         if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y -= 0.01;
+
+        printf("player_upward_velocity: %f\n", player_upward_velocity);
+        printf("player_downward_velocity: %f\n", player_downward_velocity);
 
         // CHECK FOR VERTICAL COLLISIONS
         if(player_y_velocity > 0.0){
@@ -193,22 +200,30 @@ int main (){
             }
         } else { // player_y_velocity <= 0.0
             // for going down into block
+            int checking_downward_collisions_bool = TRUE; // one collision down and we stop checking. Important so player_can_jump_bool doesn't get reset to false
             for(int i = 0; i < numBlocks; i++){
-                if(check_collision(&r1, blocks[i])){
-                    r1.y = blocks[i]->y + blocks[i]->height;
-                    // reset vertical velocities to 0.0
-                    player_y_velocity = 0.0;
-                    player_upward_velocity = 0.0;
-                    player_downward_velocity = 0.0;
-                    // player can jump next frame
-                    player_can_jump_bool = TRUE;
-                } else {
-                    // without collision going down into block, player cannot jump next frame
-                    player_can_jump_bool = FALSE;
-                }
+                if(checking_downward_collisions_bool){
+                    if(check_collision(&r1, blocks[i])){
+                        r1.y = blocks[i]->y + blocks[i]->height;
+                        // reset vertical velocities to 0.0
+                        player_y_velocity = 0.0;
+                        player_upward_velocity = 0.0;
+                        player_downward_velocity = 0.0;
+                        // player can jump next frame
+                        player_can_jump_bool = TRUE;
+                        checking_downward_collisions_bool = FALSE;
+                    } else{
+                        // without collision going down into block, player cannot jump next frame
+                        player_can_jump_bool = FALSE;
+                    }
+                }  
             }            
         }
 
+        // restart player position
+        if(keys[GLFW_KEY_R]){
+            r1.x = player_start_x; r1.y = player_start_y;
+        }
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
