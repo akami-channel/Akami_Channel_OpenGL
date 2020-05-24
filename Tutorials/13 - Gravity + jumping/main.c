@@ -120,6 +120,7 @@ int main (){
     // return 0;
 
     float player_downward_velocity = 0.0; float player_upward_velocity = 0.0;
+    int player_can_jump_bool = FALSE;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -150,42 +151,64 @@ int main (){
             }
         }
 
-        if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y += 0.01;
 
-        for(int i = 0; i < numBlocks; i++){
-            if(check_collision(&r1, blocks[i])){
-                r1.y = blocks[i]->y - r1.height;
+        // Simple moving up is commented out
+        // if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y += 0.01;
+        // for(int i = 0; i < numBlocks; i++){
+        //     if(check_collision(&r1, blocks[i])){
+        //         r1.y = blocks[i]->y - r1.height;
+        //     }
+        // }
+        // END simple moving up
+
+
+        // Up and down collisions, jumping, gravity:
+
+        if(player_can_jump_bool){
+            if(keys[GLFW_KEY_SPACE] || keys[GLFW_KEY_UP]){
+                player_upward_velocity += 0.01;
+                player_can_jump_bool = FALSE;
             }
         }
 
+        // GRAVITY
+        player_downward_velocity += deltaTime * 0.02;
+
+        // SET PLAYER_Y_VELOCITY
+        float player_y_velocity = player_upward_velocity - player_downward_velocity;
+        r1.y += player_y_velocity;
         if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y -= 0.01;
 
-        int check_gravity_bool = TRUE;
-        for(int i = 0; i < numBlocks; i++){
-            if(check_collision(&r1, blocks[i])){
-                r1.y = blocks[i]->y + blocks[i]->height;
-                check_gravity_bool = FALSE;
-                player_downward_velocity = 0.0;
+        // CHECK FOR VERTICAL COLLISIONS
+        if(player_y_velocity > 0.0){
+            // for going up into block
+            for(int i = 0; i < numBlocks; i++){
+                if(check_collision(&r1, blocks[i])){
+                    r1.y = blocks[i]->y - r1.height;
+                    // reset vertical velocities to 0.0
+                    player_y_velocity = 0.0;
+                    player_upward_velocity = 0.0;
+                    player_downward_velocity = 0.0;
+                }
             }
+        } else { // player_y_velocity <= 0.0
+            // for going down into block
+            for(int i = 0; i < numBlocks; i++){
+                if(check_collision(&r1, blocks[i])){
+                    r1.y = blocks[i]->y + blocks[i]->height;
+                    // reset vertical velocities to 0.0
+                    player_y_velocity = 0.0;
+                    player_upward_velocity = 0.0;
+                    player_downward_velocity = 0.0;
+                    // player can jump next frame
+                    player_can_jump_bool = TRUE;
+                } else {
+                    // without collision going down into block, player cannot jump next frame
+                    player_can_jump_bool = FALSE;
+                }
+            }            
         }
 
-        if(check_gravity_bool){
-            player_downward_velocity += deltaTime * 0.02;
-            r1.y -= player_downward_velocity;
-        }
-
-        for(int i = 0; i < numBlocks; i++){
-            if(check_collision(&r1, blocks[i])){
-                r1.y = blocks[i]->y + blocks[i]->height;
-                check_gravity_bool = FALSE;
-                player_downward_velocity = 0.0;
-            }
-        }
-
-        // if(!check_gravity_bool) means that we are on a surface, which means we can jump, if spacebar is pressed
-        if(keys[GLFW_KEY_SPACE] && !check_gravity_bool){
-            player_upward_velocity += 0.6;
-        }
 
         glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
