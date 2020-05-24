@@ -150,13 +150,13 @@ int main (){
             }
         }
 
-        if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y = r1.y + 0.01;
+        // if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y = r1.y + 0.01;
 
-        for(int i = 0; i < numBlocks; i++){
-            if(check_collision(&r1, blocks[i])){
-                r1.y = blocks[i]->y - r1.height;
-            }
-        }
+        // for(int i = 0; i < numBlocks; i++){
+        //     if(check_collision(&r1, blocks[i])){
+        //         r1.y = blocks[i]->y - r1.height;
+        //     }
+        // }
 
         if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y = r1.y - 0.01;
 
