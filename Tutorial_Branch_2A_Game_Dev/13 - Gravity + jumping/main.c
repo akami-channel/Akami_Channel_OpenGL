@@ -87,6 +87,8 @@ int main (){
         }
     #endif
 
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
+
     // END Window setup
 
     glfwSetKeyCallback(window, key_callback);
@@ -142,7 +144,7 @@ int main (){
 
         float player_speed = 0.8;
         float gravity_force = 1.0;
-        float player_jump_force = 0.8;
+        float player_jump_force = 0.9;
 
         if(keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) r1.x += player_speed * deltaTime;
 
