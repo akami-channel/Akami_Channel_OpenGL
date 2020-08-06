@@ -135,7 +135,9 @@ int main (){
         float previous_x = r1.x;
         float previous_y = r1.y;
 
-        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
+        float player_speed = 0.8;
+
+        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + player_speed * deltaTime;
 
         // if(check_collision(r1, r2)){
         //     r1.x = previous_x;
@@ -147,7 +149,7 @@ int main (){
             }
         }
 
-        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
+        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -159,7 +161,7 @@ int main (){
         //     r1.x = r2.x + r2.width;
         // }
 
-        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
+        if(keys[GLFW_KEY_UP]) r1.y = r1.y + player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -171,7 +173,7 @@ int main (){
         //     r1.y = previous_y;
         // }
 
-        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
+        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){

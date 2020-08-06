@@ -45,7 +45,7 @@ void draw_rect(Rectangle r1);
 
 int main (){
 
-    printf("Move with arrow keys. Press spacebar to jump.\n");
+    printf("Move with arrow keys. Press spacebar or the up arrow to jump.\n");
 
     // Window setup
     GLint glfwStatus = glfwInit();
@@ -140,7 +140,11 @@ int main (){
         float previous_x = r1.x;
         float previous_y = r1.y;
 
-        if(keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) r1.x += 0.01;
+        float player_speed = 0.8;
+        float gravity_force = 1.0;
+        float player_jump_force = 0.8;
+
+        if(keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) r1.x += player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -148,7 +152,7 @@ int main (){
             }
         }
 
-        if(keys[GLFW_KEY_LEFT] || keys[GLFW_KEY_A]) r1.x -= 0.01;
+        if(keys[GLFW_KEY_LEFT] || keys[GLFW_KEY_A]) r1.x -= player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -158,7 +162,7 @@ int main (){
 
 
         // Simple moving up is commented out
-        // if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y += 0.01;
+        // if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y += player_speed * deltaTime;
         // for(int i = 0; i < numBlocks; i++){
         //     if(check_collision(&r1, blocks[i])){
         //         r1.y = blocks[i]->y - r1.height;
@@ -171,18 +175,18 @@ int main (){
 
         if(player_can_jump_bool){
             if(keys[GLFW_KEY_SPACE] || keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]){
-                player_upward_velocity += 0.03;
+                player_upward_velocity += player_jump_force;
                 player_can_jump_bool = FALSE;
             }
         }
 
         // GRAVITY
-        player_downward_velocity += deltaTime * 0.03;
+        player_downward_velocity += gravity_force * deltaTime;
 
         // SET PLAYER_Y_VELOCITY
-        player_y_velocity = player_upward_velocity - player_downward_velocity;
+        player_y_velocity = (player_upward_velocity - player_downward_velocity) * deltaTime;
         r1.y += player_y_velocity;
-        if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y -= 0.01;
+        if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y -= player_speed * deltaTime;
 
         // CHECK FOR VERTICAL COLLISIONS
         if(player_y_velocity > 0.0){

@@ -123,25 +123,27 @@ int main (){
         float previous_x = r1.x;
         float previous_y = r1.y;
 
-        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
+        float player_speed = 0.8;
+
+        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.x = r2.x - r1.width;
         }
 
-        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
+        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.x = r2.x + r2.width;
         }
 
-        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
+        if(keys[GLFW_KEY_UP]) r1.y = r1.y + player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.y = r2.y - r1.height;
         }
 
-        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
+        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.y = r2.y + r2.height;
