@@ -30,6 +30,8 @@ float currentTime, deltaTime, lastFrame;
 
 int main (){
 
+    printf("Move with arrow keys. Collide with the other rectangle to see what happens.\n");
+
     // Window setup
     GLint glfwStatus = glfwInit();
 
