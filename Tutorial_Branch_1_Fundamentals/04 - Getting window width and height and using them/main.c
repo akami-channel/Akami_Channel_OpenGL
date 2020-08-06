@@ -72,7 +72,8 @@ int main (){
 
         glfwGetWindowSize(window, &window_width, &window_height);
         glViewport(0, 0, window_width, window_height);
-        printf("%d\n", window_width);
+        printf("width of window: %d\n", window_width);
+        printf("height of window: %d\n", window_height);
         
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
