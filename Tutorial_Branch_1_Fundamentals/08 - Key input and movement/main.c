@@ -73,6 +73,8 @@ int main (){
         }
     #endif
 
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
+
     // END Window setup
 
     glfwSetKeyCallback(window, key_callback);
