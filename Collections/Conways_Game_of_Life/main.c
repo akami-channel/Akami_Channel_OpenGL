@@ -1,17 +1,17 @@
 
 #ifndef __APPLE__
-    #include "Libraries/glad/glad.h"
+    #include "../../Libraries/glad/glad.h"
 #endif
 
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 
-#include "Libraries/GLFW/glfw3.h"
+#include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "Libraries/stb/stb_image.h"
+#include "../../Libraries/stb/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "Libraries/stb/stb_image_write.h"
+#include "../../Libraries/stb/stb_image_write.h"
 #include "headers/shader.h"
 #include <time.h>
 #include <unistd.h>
