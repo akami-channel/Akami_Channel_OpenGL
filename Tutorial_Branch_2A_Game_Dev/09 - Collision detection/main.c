@@ -30,6 +30,8 @@ float currentTime, deltaTime, lastFrame;
 
 int main (){
 
+    printf("Move with arrow keys. Collide with the other rectangle to see what happens.\n");
+
     // Window setup
     GLint glfwStatus = glfwInit();
 
@@ -69,6 +71,8 @@ int main (){
             return -1;
         }
     #endif
+
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
 
     // END Window setup
 
@@ -116,10 +120,12 @@ int main (){
         glViewport(0, 0, window_width, window_height);
         // printf("%d\n", window_width);
         
-        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
-        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
-        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
-        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
+        float player_speed = 0.8;
+
+        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + player_speed * deltaTime;
+        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - player_speed * deltaTime;
+        if(keys[GLFW_KEY_UP]) r1.y = r1.y + player_speed * deltaTime;
+        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - player_speed * deltaTime;
 
  
         if (r1.x < r2.x + r2.width &&

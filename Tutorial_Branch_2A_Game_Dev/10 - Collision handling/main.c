@@ -1,14 +1,14 @@
 
 #ifndef __APPLE__
-    #include "../../../Libraries/glad/glad.h"
+    #include "../../Libraries/glad/glad.h"
 #endif
 
 #include <stdio.h>
 #include <math.h>
 
-#include "../../../Libraries/GLFW/glfw3.h"
+#include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../../Libraries/stb/stb_image.h"
+#include "../../Libraries/stb/stb_image.h"
 #include "headers/shader.h"
 
 #define FALSE 0
@@ -42,6 +42,8 @@ typedef struct Rectangle {
 int check_collision(Rectangle r1, Rectangle r2);
 
 int main (){
+
+    printf("Move with arrow keys. See if you can collide with the other rectangle.\n");
 
     // Window setup
     GLint glfwStatus = glfwInit();
@@ -83,6 +85,8 @@ int main (){
         }
     #endif
 
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
+
     // END Window setup
 
     glfwSetKeyCallback(window, key_callback);
@@ -121,25 +125,27 @@ int main (){
         float previous_x = r1.x;
         float previous_y = r1.y;
 
-        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + 0.01;
+        float player_speed = 0.8;
+
+        if(keys[GLFW_KEY_RIGHT]) r1.x = r1.x + player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.x = r2.x - r1.width;
         }
 
-        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - 0.01;
+        if(keys[GLFW_KEY_LEFT]) r1.x = r1.x - player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.x = r2.x + r2.width;
         }
 
-        if(keys[GLFW_KEY_UP]) r1.y = r1.y + 0.01;
+        if(keys[GLFW_KEY_UP]) r1.y = r1.y + player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.y = r2.y - r1.height;
         }
 
-        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - 0.01;
+        if(keys[GLFW_KEY_DOWN]) r1.y = r1.y - player_speed * deltaTime;
 
         if(check_collision(r1, r2)){
             r1.y = r2.y + r2.height;

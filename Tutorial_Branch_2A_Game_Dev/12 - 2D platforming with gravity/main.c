@@ -1,14 +1,14 @@
 
 #ifndef __APPLE__
-    #include "../../../Libraries/glad/glad.h"
+    #include "../../Libraries/glad/glad.h"
 #endif
 
 #include <stdio.h>
 #include <math.h>
 
-#include "../../../Libraries/GLFW/glfw3.h"
+#include "../../Libraries/GLFW/glfw3.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../../Libraries/stb/stb_image.h"
+#include "../../Libraries/stb/stb_image.h"
 #include "headers/shader.h"
 
 #define FALSE 0
@@ -44,6 +44,8 @@ GLuint quad_shader;
 void draw_rect(Rectangle r1);
 
 int main (){
+
+    printf("Move with arrow keys.\n");
 
     // Window setup
     GLint glfwStatus = glfwInit();
@@ -84,6 +86,8 @@ int main (){
             return -1;
         }
     #endif
+
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
 
     // END Window setup
 
@@ -134,7 +138,10 @@ int main (){
         float previous_x = r1.x;
         float previous_y = r1.y;
 
-        if(keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) r1.x = r1.x + 0.01;
+        float player_speed = 0.8;
+        float gravity_force = 1.0;
+
+        if(keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) r1.x = r1.x + player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -142,7 +149,7 @@ int main (){
             }
         }
 
-        if(keys[GLFW_KEY_LEFT] || keys[GLFW_KEY_A]) r1.x = r1.x - 0.01;
+        if(keys[GLFW_KEY_LEFT] || keys[GLFW_KEY_A]) r1.x = r1.x - player_speed * deltaTime;
 
         for(int i = 0; i < numBlocks; i++){
             if(check_collision(&r1, blocks[i])){
@@ -150,7 +157,7 @@ int main (){
             }
         }
 
-        // if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y = r1.y + 0.01;
+        // if(keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) r1.y = r1.y + player_speed * deltaTime;
 
         // for(int i = 0; i < numBlocks; i++){
         //     if(check_collision(&r1, blocks[i])){
@@ -158,7 +165,7 @@ int main (){
         //     }
         // }
 
-        if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y = r1.y - 0.01;
+        if(keys[GLFW_KEY_DOWN] || keys[GLFW_KEY_S]) r1.y = r1.y - player_speed * deltaTime;
 
         int check_gravity_bool = TRUE;
         for(int i = 0; i < numBlocks; i++){
@@ -170,8 +177,8 @@ int main (){
         }
 
         if(check_gravity_bool){
-            player_downward_velocity += deltaTime * 0.02;
-            r1.y -= player_downward_velocity;
+            player_downward_velocity += gravity_force * deltaTime;
+            r1.y -= player_downward_velocity * deltaTime;
         }
 
         for(int i = 0; i < numBlocks; i++){

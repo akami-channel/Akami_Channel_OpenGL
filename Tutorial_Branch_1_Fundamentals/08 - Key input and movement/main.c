@@ -30,6 +30,8 @@ float currentTime, deltaTime, lastFrame;
 
 int main (){
 
+    printf("Move with arrow keys.\n");
+
     // Window setup
     GLint glfwStatus = glfwInit();
 
@@ -60,6 +62,7 @@ int main (){
     }
 
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
 
     #ifndef __APPLE__
         // If Windows or Linux: load all OpenGL function pointers with GLAD

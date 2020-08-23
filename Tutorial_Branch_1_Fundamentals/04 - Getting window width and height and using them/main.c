@@ -48,6 +48,7 @@ int main (){
     }
 
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1); // To my knowledge, this turns on vsync on macOS
 
     #ifndef __APPLE__
         // If Windows or Linux: load all OpenGL function pointers with GLAD
@@ -72,7 +73,8 @@ int main (){
 
         glfwGetWindowSize(window, &window_width, &window_height);
         glViewport(0, 0, window_width, window_height);
-        printf("%d\n", window_width);
+        printf("width of window: %d\n", window_width);
+        printf("height of window: %d\n", window_height);
         
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
