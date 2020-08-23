@@ -1,5 +1,5 @@
 
-library_dir="../../../Libraries"
+library_dir="../../Libraries"
 
 # takes an argument for compilation
 
