@@ -8,6 +8,7 @@ uniform float transX;
 
 void main()
 {
-   gl_Position = vec4(aPos.x + transX, aPos.y, aPos.z, 1.0);
+   // macbook screen is 16:10
+   gl_Position = vec4( aPos.x * 1.0, aPos.y * 1.6 , aPos.z, 1.0);
    TexCoord = texCoord;
 }
