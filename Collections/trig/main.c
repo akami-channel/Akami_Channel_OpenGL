@@ -95,7 +95,7 @@ int main (){
         glViewport(0, 0, window_width, window_height);
         // printf("%d\n", window_width);
         
-        glClearColor(0.3f, 0.9f, 0.2f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         //glDrawArrays(GL_TRIANGLES, 0, 6);

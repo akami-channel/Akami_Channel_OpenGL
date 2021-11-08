@@ -25,12 +25,9 @@ vec3 color_code_pos_and_neg1 (float x){
 
 void main()
 {
-    // x ^ 2 + y ^ 2 = r ^ 2
        
     // FragColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);
     // FragColor = texture(generalTexture, TexCoord);
-
-    // x^2 + y^2 <= r^2
 
     // float adjusted_x = TexCoord.x * 2.0 - 1.0; // ranges from -1.0 to 1.0
     // float adjusted_y = TexCoord.y * 2.0 - 1.0; // ranges from -1.0 to 1.0
@@ -38,27 +35,8 @@ void main()
     float x = TexCoord.x * 20.0 - 10.0; // ranges from -10.0 to 10.0
     float y = TexCoord.y * 20.0 - 10.0; // ranges from -10.0 to 10.0
 
-    // float foo = (x / (2*y- x));
     FragColor = vec4(color_code_pos_and_neg1(atan(x/(2*y - x))), 1.0f);
     // FragColor = vec4(color_code_pos_and_neg1(adjusted_x), 1.0);
-
-    // if(adjusted_x >= 0.0) {
-    //     FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    // } else{
-    //     FragColor = vec4(1.0f, 0.0f, 1.0f, 1.0f);
-    // }
-
-    // if(adjusted_y >= 0.0) {
-    //     FragColor = vec4(1.0f, 0.0f, 1.0f, 1.0f);
-    // } else{
-    //     FragColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);
-    // }
-
-    // if(adjusted_y >= 0.0 && adjusted_x >= 0.0) {
-    //     FragColor = vec4(1.0f, 0.0f, 1.0f, 1.0f);
-    // } else{
-    //     FragColor = vec4(0.3f, 0.0f, 1.0f, 1.0f);
-    // }
 
     // if(pow(TexCoord.x, 2.0) + pow(TexCoord.y, 2.0) <= 1.0){
     //     FragColor = vec4(TexCoord.x, 0.0f, TexCoord.y, 1.0f);
