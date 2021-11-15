@@ -72,18 +72,18 @@ int main (){
 
     // SETUP FOR TEXT WITH FREETYPE2 LIBRARY
     FT_Library ft;
-if (FT_Init_FreeType(&ft))
-{
-    printf("ERROR::FREETYPE: Could not init FreeType Library\n");
-    return -1;
-}
+    if (FT_Init_FreeType(&ft))
+    {
+        printf("ERROR::FREETYPE: Could not init FreeType Library\n");
+        return -1;
+    }
 
-FT_Face face;
-if (FT_New_Face(ft, "/usr/share/fonts/truetype/lw2.ttf", 0, &face))
-{
-    printf("ERROR::FREETYPE: Failed to load font; Please change path to a font that exists on your system.\n");  
-    return -1;
-}
+    FT_Face face;
+    if (FT_New_Face(ft, "/usr/share/fonts/truetype/lw2.ttf", 0, &face))
+    {
+        printf("ERROR::FREETYPE: Failed to load font; Please change path to a font that exists on your system.\n");  
+        return -1;
+    }
 
     // set up Vertex Array Object that contains our vertices and bind it
     setupVAO();
