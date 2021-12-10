@@ -1,13 +1,10 @@
 #version 330 core
 
-// in vec2 TexCoord;
-
-out vec4 FragColor;
-
 in vec2 TexCoords;
 out vec4 color;
 
-uniform sampler2D generalTexture;
+uniform sampler2D text;
+uniform vec3 textColor;
 
 #define PI 3.14159
 
@@ -35,10 +32,10 @@ void main()
     // float adjusted_x = TexCoord.x * 2.0 - 1.0; // ranges from -1.0 to 1.0
     // float adjusted_y = TexCoord.y * 2.0 - 1.0; // ranges from -1.0 to 1.0
 
-    float x = TexCoords.x * 20.0 - 10.0; // ranges from -10.0 to 10.0
-    float y = TexCoords.y * 20.0 - 10.0; // ranges from -10.0 to 10.0
+    // float x = TexCoords.x * 20.0 - 10.0; // ranges from -10.0 to 10.0
+    // float y = TexCoords.y * 20.0 - 10.0; // ranges from -10.0 to 10.0
 
-    FragColor = vec4(color_code_pos_and_neg1(atan(x/(2*y - x))), 1.0f);
+    // color = vec4(color_code_pos_and_neg1(atan(x/(2*y - x))), 1.0f);
     // FragColor = vec4(color_code_pos_and_neg1(adjusted_x), 1.0);
 
     // if(pow(TexCoord.x, 2.0) + pow(TexCoord.y, 2.0) <= 1.0){
@@ -46,13 +43,16 @@ void main()
     // } else{
     //     FragColor = vec4(0.0f, 1.0f, 1.0f, 1.0f);
     // }
+
+
+    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
+    color = vec4(textColor, 1.0) * sampled;
 }
 
 
 
 
-// uniform sampler2D text;
-// uniform vec3 textColor;
+
 
 // void main()
 // {    
